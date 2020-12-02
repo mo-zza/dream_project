@@ -2,7 +2,7 @@ from pymongo import MongoClient
 
 
 class MongoDB():
-    def __init__(self, user='Admin', password='DreamsComeTrue', db_name='Dreamer'):
+    def __init__(self, user, password, db_name):
         self.db = MongoClient("mongodb+srv://{user}:{password}@dream-cluster.i4zfu.mongodb.net/{db_name}?retryWrites=true&w=majority")
 
     
