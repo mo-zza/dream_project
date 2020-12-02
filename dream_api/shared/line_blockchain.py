@@ -6,12 +6,6 @@ import hmac
 import hashlib
 import base64
 
-'''
-1. nonce, 타임 스탬프, HTTP 메서드, 요청 경로, 쿼리 문자열 및 요청 본문 문자열을 나열된 순서대로 연결하여 문자열을 만듭니다.
-2. HMAC-SHA512를 사용하여 API 암호로 1 단계의 문자열에 서명합니다.
-3. 위 2 단계의 결과를 Base64로 인코딩합니다.
-'''
-
 
 class BlockchainRequest():
     def __init__(self, api_key, secret_key, base_url):
@@ -87,7 +81,7 @@ class BlockchainRequest():
 
 
 class LineBlockchain(BlockchainRequest):
-    def __init__(self, base_url='https://test-api.blockchain.line.me', api_key='2b885173-b3ba-4f67-8a2d-0dda9a0ab99b', secret_key='91ba4ec6-5a00-4d00-889d-5cb46d073be7'):
+    def __init__(self, base_url='https://test-api.blockchain.line.me', api_key='', secret_key=''):
         super().__init__(api_key, secret_key, base_url)
 
     def get_service_information(self, serviceId):
@@ -133,18 +127,3 @@ class LineBlockchain(BlockchainRequest):
         res = requests.post(self.base_url + end_point, headers=header, json=request_body)
 
         return res.json()
-
-
-DREAMER_WALLET_SECRET = '4KyYqwp2fWj47J2mUgGptdxlixhnRTIH2/X9th9N+oA='
-
-DREAMER_WALLET_ADDRESS = 'tlink1f9wm2yfjnmxs4llcc8mw09nwtdg2urutnqjk69'
-
-ADMIN_WALLET_SECRET = 'GiOODw948cOQZjxxkXaeMTYZbSjp7u8DYUDmMYBvewU='
-ADMIN_WALLET_ADDRESS = 'tlink1gwet85f2kfk69ycxkn95dwl825968vq4cgpvda'
-SERVICE_ID = '02c5fcd1-e993-416f-b812-f9ab662ce8f7'
-CONTRACT_ID = 'd63c5cbe'
-
-if __name__ == '__main__':
-    line=LineBlockchain()
-    service_info=line.create_service_token(CONTRACT_ID, DREAMER_WALLET_ADDRESS, DREAMER_WALLET_SECRET, '1')
-    print(service_info)
