@@ -61,7 +61,6 @@ class BlockchainRequest():
         timestamp=self.get_server_time()
 
         data = nonce+str(timestamp)+method+end_point+body
-        print(data)
         signature=self.hashing(data)
 
         return signature, nonce, timestamp
@@ -81,7 +80,7 @@ class BlockchainRequest():
 
 
 class LineBlockchain(BlockchainRequest):
-    def __init__(self, base_url='https://test-api.blockchain.line.me', api_key='', secret_key=''):
+    def __init__(self, base_url='https://test-api.blockchain.line.me', api_key='2b885173-b3ba-4f67-8a2d-0dda9a0ab99b', secret_key='91ba4ec6-5a00-4d00-889d-5cb46d073be7'):
         super().__init__(api_key, secret_key, base_url)
 
     def get_service_information(self, serviceId):
@@ -108,6 +107,7 @@ class LineBlockchain(BlockchainRequest):
         header = self.build_path_only_headers('GET', end_point)
 
         res = requests.get(self.base_url + end_point, headers=header)
+
         return res.json()
 
     def create_service_token(self, contractId, ownerAddress, ownerSecret, amount):
@@ -127,3 +127,101 @@ class LineBlockchain(BlockchainRequest):
         res = requests.post(self.base_url + end_point, headers=header, json=request_body)
 
         return res.json()
+
+    def get_all_ft_contract_info(self, contractId):
+        end_point = f'/v1/item-tokens/{contractId}'
+
+        header = self.build_path_only_headers('GET', end_point)
+
+        res = requests.get(self.base_url + end_point, headers=header)
+
+        return res.json()
+
+    def get_all_nft_contract_info(self, contractId):
+        end_point = f'/v1/item-tokens/{contractId}/non-fungibles'
+
+        header = self.build_path_only_headers('GET', end_point)
+
+        res = requests.get(self.base_url + end_point, headers=header)
+
+        return res.json()
+
+    def create_nft(self, contractId, ownerAddress, ownerSecret, name, meta):
+        end_point = f'/v1/item-tokens/{contractId}/non-fungibles'
+
+        request_body = {
+            'ownerAddress' : ownerAddress,
+            'ownerSecret': ownerSecret,
+            'name' : name,
+            'meta' : meta
+        }
+
+        uri = f'?name={name}&meta={meta}&ownerAddress={ownerAddress}&ownerSecret={ownerSecret}'
+
+        header = self.build_request_body_headers('POST', end_point, uri)
+
+        res = requests.post(self.base_url + end_point, headers=header, json=request_body)
+
+        return res.json()
+
+    def mint_nft(self, contractId, tokenType, ownerAddress, ownerSecret, toAddress, name, meta):
+        end_point = f'/v1/item-tokens/{contractId}/non-fungibles/{tokenType}/mint'
+
+        request_body = {
+            'name': name,
+            'meta': meta,
+            'ownerAddress': ownerAddress,
+            'ownerSecret': ownerSecret,
+            'toAddress': toAddress,
+        }
+
+        uri = f'?meta={meta}&name={name}&ownerAddress={ownerAddress}&ownerSecret={ownerSecret}&toAddress={toAddress}'
+        
+        header = self.build_request_body_headers('POST', end_point, uri)
+
+        res = requests.post(self.base_url + end_point, headers=header, json=request_body)
+        
+        return res.json()
+
+    def get_nft_info(self, contractId, tokenType, tokenIndex):
+        end_point = f'/v1/item-tokens/{contractId}/non-fungibles/{tokenType}/{tokenIndex}'
+
+        header = self.build_path_only_headers('GET', end_point)
+
+        res = requests.get(self.base_url + end_point, headers=header)
+
+        return res.json()
+
+
+
+
+DREAMER_WALLET_SECRET = '4KyYqwp2fWj47J2mUgGptdxlixhnRTIH2/X9th9N+oA='
+
+DREAMER_WALLET_ADDRESS = 'tlink1f9wm2yfjnmxs4llcc8mw09nwtdg2urutnqjk69'
+
+ADMIN_WALLET_SECRET = 'GiOODw948cOQZjxxkXaeMTYZbSjp7u8DYUDmMYBvewU='
+ADMIN_WALLET_ADDRESS = 'tlink1gwet85f2kfk69ycxkn95dwl825968vq4cgpvda'
+SERVICE_ID = '02c5fcd1-e993-416f-b812-f9ab662ce8f7'
+CONTRACT_ID = 'd63c5cbe'
+NFT_CONTRACT_ID = '9c3c2edc'
+NFT_TOKEN_TYPE = '10000001'
+NFT_TOKEN_INDEX = '00000007'
+
+if __name__ == '__main__':
+    data = "{'category' : '학교 폭력','title' : '살려주세요','content' : '학교 폭력을 당하고 있습니다. 살려주세요','image' : '첨부파일','user_name' : '하재우','time' : '2020-12-03 18:37'}"
+    line=LineBlockchain()
+#     # service_info=line.get_service_information(SERVICE_ID)
+#     # wallet_info=line.get_all_wallet()
+#     # # ft_contract_info = line.get_all_ft_contract_info(CONTRACT_ID)
+#     # nft_token_contract_info = line.get_all_nft_contract_info(NFT_CONTRACT_ID)
+#     # create_nft = line.create_nft(NFT_CONTRACT_ID, DREAMER_WALLET_ADDRESS, DREAMER_WALLET_SECRET, 'DIT', 'TEST')
+    # mint_nft = line.mint_nft(NFT_CONTRACT_ID, NFT_TOKEN_TYPE, DREAMER_WALLET_ADDRESS, DREAMER_WALLET_SECRET, ADMIN_WALLET_ADDRESS, 'DIT', data)
+    nft_info = line.get_nft_info(NFT_CONTRACT_ID, NFT_TOKEN_TYPE, NFT_TOKEN_INDEX)
+
+#     # print(service_info)
+#     # print(wallet_info)
+#     # # print(ft_contract_info)
+#     # print(nft_token_contract_info)
+#     # print(create_nft)
+    # print(mint_nft)
+    print(nft_info)

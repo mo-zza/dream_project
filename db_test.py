@@ -12,22 +12,17 @@ class MongoDB():
 
         return collection.insert_one(data)
 
-    def update_database(self, db_name:str, collection_name:str, old_data:str, update_time:int, update_data:str):
+    def update_database(self, db_name:str, collection_name:str, old_data:dict, update_data:dict):
         db_name = self.mongo[f'{db_name}']
         collection = db_name[f'{collection_name}']
 
-        query = {"email" : old_data}
-        new_data = {"$push" : {"token_index" : [update_data]}}
-
-
-        return collection.update(query, new_data)
+        return collection.update(old_data, update_data, upsert=True)
 
     def read_database(self, db_name:str, collection_name:str, search_data:dict):
         db_name = self.mongo[f'{db_name}']
         collection = db_name[f'{collection_name}']
         query = {"email" : search_data}
-
-        data = collection.find(query)
+        data = [data_lst for data_lst in collection.find(query)]
 
         return data
 
@@ -36,3 +31,7 @@ class MongoDB():
         collection = db_name[f'{collection_name}']
 
         return collection.remove(remove_data)
+
+db = MongoDB()
+result = db.read_database('Dreamer', 'USERS', 'fuck')
+print(result)
