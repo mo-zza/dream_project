@@ -1,11 +1,11 @@
 class DeclarationModel():
-    def build_declaration_model(self, user_id:str, contract_id:str, datetime:int, declaration_count:int, redeclaration:int, status:str):
+    def build_declaration_model(self, index:str, token_index:int, category:str, owner:str, datetime:int, status:str):
         declaration_model = {
-            'id' : user_id,
-            'contract_id' : contract_id,
+            'index' : index,
+            'token_index' : token_index,
+            'category' : category,
+            'owner' : owner,
             'datetime' : datetime,
-            'declaration_count' : declaration_count,
-            'redeclaration' : redeclaration,
             'status' : status
         }
 

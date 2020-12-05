@@ -12,24 +12,32 @@ class MongoDB():
 
         return collection.insert_one(data)
 
-    def update_database(self, db_name:str, collection_name:str, old_data:str, update_time:int, update_data:str):
+    def update_database(self, db_name:str, collection_name:str, query_key:str, old_data:str, update_key:str, update_data:str):
         db_name = self.mongo[f'{db_name}']
         collection = db_name[f'{collection_name}']
 
-        query = {"email" : old_data}
-        new_data = {"$push" : {"token_index" : [update_data]}}
-
+        query = {query_key : old_data}
+        new_data = {"$set" : {update_key : update_data}}
 
         return collection.update(query, new_data)
 
-    def read_database(self, db_name:str, collection_name:str, search_data:dict):
+    def read_document(self, db_name:str, collection_name:str):
         db_name = self.mongo[f'{db_name}']
         collection = db_name[f'{collection_name}']
-        query = {"email" : search_data}
+        collection_list = [lst for lst in collection.find()]
+
+        return collection_list
+
+    def read_filed(self, db_name:str, collection_name:str, search_key:str, search_item:str):
+        db_name = self.mongo[f'{db_name}']
+        collection = db_name[f'{collection_name}']
+        query = { search_key : search_item}
 
         data = collection.find(query)
 
-        return data
+        data_list = [lst for lst in data]
+
+        return data_list
 
     def delete_database(self, db_name:str, collection_name:str, remove_data:dict):
         db_name = self.mongo[f'{db_name}']

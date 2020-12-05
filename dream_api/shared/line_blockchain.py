@@ -191,37 +191,3 @@ class LineBlockchain(BlockchainRequest):
         res = requests.get(self.base_url + end_point, headers=header)
 
         return res.json()
-
-
-
-
-DREAMER_WALLET_SECRET = '4KyYqwp2fWj47J2mUgGptdxlixhnRTIH2/X9th9N+oA='
-
-DREAMER_WALLET_ADDRESS = 'tlink1f9wm2yfjnmxs4llcc8mw09nwtdg2urutnqjk69'
-
-ADMIN_WALLET_SECRET = 'GiOODw948cOQZjxxkXaeMTYZbSjp7u8DYUDmMYBvewU='
-ADMIN_WALLET_ADDRESS = 'tlink1gwet85f2kfk69ycxkn95dwl825968vq4cgpvda'
-SERVICE_ID = '02c5fcd1-e993-416f-b812-f9ab662ce8f7'
-CONTRACT_ID = 'd63c5cbe'
-NFT_CONTRACT_ID = '9c3c2edc'
-NFT_TOKEN_TYPE = '10000001'
-NFT_TOKEN_INDEX = '00000007'
-
-if __name__ == '__main__':
-    data = "{'category' : '학교 폭력','title' : '살려주세요','content' : '학교 폭력을 당하고 있습니다. 살려주세요','image' : '첨부파일','user_name' : '하재우','time' : '2020-12-03 18:37'}"
-    line=LineBlockchain()
-#     # service_info=line.get_service_information(SERVICE_ID)
-#     # wallet_info=line.get_all_wallet()
-#     # # ft_contract_info = line.get_all_ft_contract_info(CONTRACT_ID)
-#     # nft_token_contract_info = line.get_all_nft_contract_info(NFT_CONTRACT_ID)
-#     # create_nft = line.create_nft(NFT_CONTRACT_ID, DREAMER_WALLET_ADDRESS, DREAMER_WALLET_SECRET, 'DIT', 'TEST')
-    # mint_nft = line.mint_nft(NFT_CONTRACT_ID, NFT_TOKEN_TYPE, DREAMER_WALLET_ADDRESS, DREAMER_WALLET_SECRET, ADMIN_WALLET_ADDRESS, 'DIT', data)
-    nft_info = line.get_nft_info(NFT_CONTRACT_ID, NFT_TOKEN_TYPE, NFT_TOKEN_INDEX)
-
-#     # print(service_info)
-#     # print(wallet_info)
-#     # # print(ft_contract_info)
-#     # print(nft_token_contract_info)
-#     # print(create_nft)
-    # print(mint_nft)
-    print(nft_info)

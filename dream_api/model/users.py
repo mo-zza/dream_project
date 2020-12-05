@@ -1,14 +1,17 @@
 class UserModel():
-    def build_user_model(self, name:str, user_email:str, password:str, birth:int, phone:int, school:str, address:str):
+    def build_user_model(self, user_name:str, user_email:str, password:str, birth:int, phone:int, school:str, address:str, wallet_address:str, wallet_secret:str):
         user_model = {
-            'user_name' : name,
             'email' : user_email,
             'password' : password,
-            'birth' : birth,
-            'phone' : phone,
+            'name' : user_name,
             'school' : school,
+            'phone' : phone,
             'address' : address,
-            'status' : True,
+            'birth' : birth,
+            'wallet' : {
+                'address' : wallet_address,
+                'secret' : wallet_secret
+            }
         }
 
         return user_model
