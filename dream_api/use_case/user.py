@@ -7,6 +7,14 @@ class Users():
     def __init__(self, user_email:str):
         self.email = user_email
 
+    def check_user(self):
+        user_info = db.read_filed('Dreamer', 'USERS', 'email', self.email)
+        
+        if user_info == []:
+            return None
+        else:
+            return user_info
+
     def get_wallet_info(self):
         all_wallet = db.read_filed('Dreamer', 'WALLET', 'status', False)
         unspec_wallet = all_wallet[0]
@@ -14,17 +22,27 @@ class Users():
         return unspec_wallet
 
     def get_user(self):
-        user_info = db.read_filed('Dreamer', 'USERS', 'email', self.email)
-        if user_info != []:
+        available_user = self.check_user()
 
-            return user_info
-        else:
+        if available_user == None:
 
             return False
 
-    def create_user(self, name:str, password:str, birth:str, phone:str, school:str, address:str):
+        else:
+            user_info = available_user[0]
+            del(user_info['_id'])
 
-        if db.read_filed('Dreamer', 'USERS', 'email', self.email) == []:
+            return user_info
+            
+
+    def create_user(self, name:str, password:str, birth:str, phone:str, school:str, address:str):
+        available_user = self.check_user()
+
+        if available_user != None:
+
+            return False
+
+        else:
 
             unspec_wallet_info = self.get_wallet_info()
             unspec_wallet_address = unspec_wallet_info['address']
@@ -35,7 +53,3 @@ class Users():
             db.update_database('Dreamer', 'WALLET', 'status', False, 'status', True)
 
             return True
-
-        else:
-
-            return False

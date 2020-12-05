@@ -44,12 +44,9 @@ def search_user():
     users=Users(email)
     user_info = users.get_user()
 
-    if user_info != False:
+    if user_info == False:
 
-        user_info = user_info[0]
-        del(user_info['_id'])
-
-        return user_info, 200
+        return 'User not found', 404
     else:
         
-        return 'User not found', 404
+        return user_info, 200
