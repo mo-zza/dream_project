@@ -44,3 +44,10 @@ class MongoDB():
         collection = db_name[f'{collection_name}']
 
         return collection.remove(remove_data)
+
+    def query_token_index(self, db_name:str, collection_name:str, search_key:str):
+        db_name = self.mongo[f'{db_name}']
+        collection = db_name[f'{collection_name}']
+        query = { search_key : { "$gt" : 0}}
+
+        return collection.find(query)

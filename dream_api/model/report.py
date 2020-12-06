@@ -1,6 +1,6 @@
-class DeclarationModel():
-    def build_declaration_model(self, index:str, token_index:int, category:str, owner:str, datetime:int, status:str):
-        declaration_model = {
+class ReportModel():
+    def build_report_model(self, index:str, token_index:int, category:str, owner:str, datetime:int, status:str):
+        report_model = {
             'index' : index,
             'token_index' : token_index,
             'category' : category,
@@ -9,4 +9,4 @@ class DeclarationModel():
             'status' : status
         }
 
-        return declaration_model
+        return report_model
