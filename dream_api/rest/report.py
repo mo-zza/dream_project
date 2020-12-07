@@ -3,8 +3,8 @@ from dream_api.rest import bp
 from dream_api.use_case.report import Report
 # from dream_api.object.req_object import req
 
-@bp.route('/user', methods=['POST'])
-def create_user():
+@bp.route('/regist', methods=['POST'])
+def regist():
     try:
         req_data = request.get_json()
 
@@ -18,9 +18,11 @@ def create_user():
 
         return 'Method not allowed', 405
 
-    report = Report(email)
-    create_token = report.report_vio(title, report_type, content, datetime)
-    if create_token == True:
+
+    try:
+        report = Report(email)
+        report.report_vio(title, report_type, content, datetime)
+
         return {}, 200
-    else:
-        return create_token, 500
+    except:
+        return "token error", 500
