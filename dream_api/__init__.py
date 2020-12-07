@@ -7,4 +7,4 @@ blockchain=LineBlockchain()
 
 bp = Blueprint('/', __name__)
 
-from dream_api.rest import user, report
+from dream_api.rest import user, report, modify, health_check
