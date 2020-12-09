@@ -20,9 +20,27 @@ def regist():
 
 
     try:
-        report = Report(email)
-        report.report_vio(title, report_type, content, datetime)
+        report = Report()
+        report.report_vio(email, title, report_type, content, datetime)
 
         return {}, 200
     except:
         return "token error", 500
+
+@bp.route('/report', methods=['GET'])
+def one_report():
+    try:
+        report_index = request.args.get('index')
+
+    except IndexError:
+        
+        return { 'data' : { 'message' : 'Method not allowed' } }, 405
+
+    try:
+        report = Report()
+        report_info = report.get_report(report_index)
+
+        return { 'data' : report_info }, 200
+    
+    except:
+        return { 'data' : { 'message' : 'Report Not Found'} }, 404

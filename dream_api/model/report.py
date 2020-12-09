@@ -20,6 +20,6 @@ class ReportModel():
         return report_model
 
     def build_meeta_model(self, content):
-        meta_model = f'title : {self.title}, category : {self.category}, owner : {self.owner}, datetime : {self. datetime}, content : {content}'
+        meta_model = f'{"title" : "{self.title}", "category" : "{self.category}", "owner" : "{self.owner}", "datetime" : "{self. datetime}", "content" : "{content}"}'
 
         return meta_model
