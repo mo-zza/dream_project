@@ -28,7 +28,7 @@ def regist():
         return "token error", 500
 
 @bp.route('/report', methods=['GET'])
-def one_report():
+def get_report():
     try:
         report_index = request.args.get('index')
 
