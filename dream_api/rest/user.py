@@ -20,33 +20,54 @@ def create_user():
     
     except IndexError:
 
-        return 'Method not allowed', 405
+        return { 'data' : { 'message' : 'Method not allowed' } }, 405
 
     users=Users(email)
 
     if users.create_user(name, password, birth, phone, school, address) == True:
         return  {}, 200
     else:
-        return 'User already exist', 400
+        return 'Server Error', 500
 
-        
-
-@bp.route('/user', methods=['GET'])
+@bp.route('/login', methods=['POST'])
 def search_user():
     try:
         data = request.get_json()
         email = data['email']
+        password = data['password']
 
     except IndexError:
-        return 'Method not allowed', 405
+        return { 'data' : { 'message' : 'Method not allowed' } }, 405
 
     
     users=Users(email)
-    user_info = users.get_user()
+    user_info = users.get_user(password)
 
-    if user_info == False:
+    if user_info == 'User':
 
-        return 'User not found', 404
-    else:
+        return { 'data' : { 'message' : 'Usser not found' } }, 404
         
-        return user_info, 200
+    elif user_info == 'Password':
+        
+        return { 'code' : 40100, 'data' : { 'message' : 'Invalied passwrod'}}, 401
+
+    else:
+        return { 'data' : { 'token' : user_info} }, 200
+
+@bp.route('/email-check', methods=['GET'])
+def email_check():
+    try:
+        email = request.args.get('email')
+
+    except IndexError:
+        return { 'data' : { 'message' : 'Method not allowed' } }, 405
+
+    users=Users(email)
+    user_info = users.check_user()
+
+    if user_info == None:
+
+        return { 'data' : { 'message' : 'Empty user'} }, 200
+    else:
+
+        return { 'data' : { 'message' : 'Usser already exist' } }, 400

@@ -21,35 +21,31 @@ class Users():
 
         return unspec_wallet
 
-    def get_user(self):
+    def get_user(self, password):
         available_user = self.check_user()
 
         if available_user == None:
 
-            return False
+            return 'User'
 
         else:
             user_info = available_user[0]
             del(user_info['_id'])
 
-            return user_info
+            if user_info['password'] == password:
+
+                return user_info['name']
+            else:
+                return 'Password'
             
 
     def create_user(self, name:str, password:str, birth:str, phone:str, school:str, address:str):
-        available_user = self.check_user()
+        unspec_wallet_info = self.get_wallet_info()
+        unspec_wallet_address = unspec_wallet_info['address']
+        unspec_wallet_secret = unspec_wallet_info['secret']
 
-        if available_user != None:
+        user_data = UserModel().build_user_model(name, self.email, password, birth, phone, school, address, unspec_wallet_address, unspec_wallet_secret)
+        db.create_database('Dreamer', 'USERS', user_data)
+        db.update_database('Dreamer', 'WALLET', 'status', False, 'status', True)
 
-            return False
-
-        else:
-
-            unspec_wallet_info = self.get_wallet_info()
-            unspec_wallet_address = unspec_wallet_info['address']
-            unspec_wallet_secret = unspec_wallet_info['secret']
-
-            user_data = UserModel().build_user_model(name, self.email, password, birth, phone, school, address, unspec_wallet_address, unspec_wallet_secret)
-            db.create_database('Dreamer', 'USERS', user_data)
-            db.update_database('Dreamer', 'WALLET', 'status', False, 'status', True)
-
-            return True
+        return True
