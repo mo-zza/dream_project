@@ -1,7 +1,10 @@
 from flask import Flask
 from flask import Blueprint
+import logging
 
 from config import Config
+
+logging.basicConfig(filename = "../log/dream.log", level = logging.DEBUG)
 
 def create_app(config_class=Config):
     app = Flask(__name__)
