@@ -39,12 +39,12 @@ class Users():
                 return 'Password'
             
 
-    def create_user(self, name:str, password:str, birth:str, phone:str, school:str, address:str):
+    def create_user(self, name:str, password:str, birth:str, phone:str, school:str, address:str, detail_address:str):
         unspec_wallet_info = self.get_wallet_info()
         unspec_wallet_address = unspec_wallet_info['address']
         unspec_wallet_secret = unspec_wallet_info['secret']
 
-        user_data = UserModel().build_user_model(name, self.email, password, birth, phone, school, address, unspec_wallet_address, unspec_wallet_secret)
+        user_data = UserModel().build_user_model(name, self.email, password, birth, phone, school, address, detail_address, unspec_wallet_address, unspec_wallet_secret)
         db.create_database('Dreamer', 'USERS', user_data)
         db.update_database('Dreamer', 'WALLET', 'status', False, 'status', True)
 

@@ -16,6 +16,7 @@ def create_user():
         phone=req_data['phone']
         school=req_data['school']
         address=req_data['address']
+        detail_address = req_data['detail_address']
 
     
     except IndexError:
@@ -24,7 +25,7 @@ def create_user():
 
     users=Users(email)
 
-    if users.create_user(name, password, birth, phone, school, address) == True:
+    if users.create_user(name, password, birth, phone, school, address, detail_address) == True:
         return  {}, 200
     else:
         return 'Server Error', 500
