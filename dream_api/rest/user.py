@@ -55,7 +55,7 @@ def search_user():
     else:
         return { 'data' : { 'token' : user_info} }, 200
 
-@bp.route('/email-check', methods=['GET'])
+@bp.route('/email-status', methods=['GET'])
 def email_check():
     try:
         email = request.args.get('email')
