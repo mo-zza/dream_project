@@ -8,11 +8,10 @@ def regist():
     try:
         req_data = request.get_json()
 
-        email = req_data['email']
         title = req_data['title']
-        report_type = req_data['type']
-        content = req_data['content']
-        datetime = req_data['datetime']
+        category = req_data['category']
+        content = req_data['report']
+        owner = req_data['owner']
     
     except IndexError:
 
@@ -21,9 +20,9 @@ def regist():
 
     try:
         report = Report()
-        report.report_vio(email, title, report_type, content, datetime)
+        report.report_vio(owner, title, category, content)
 
-        return {}, 200
+        return {}, 201
     except:
         return "token error", 500
 
@@ -44,3 +43,41 @@ def get_report():
     
     except:
         return { 'data' : { 'message' : 'Report Not Found'} }, 404
+
+@bp.route('/empathy', methods=['POST'])
+def add_empathy():
+    try:
+        report_index = request.args.get('index')
+
+    except IndexError:
+
+        return{ 'data' : { 'message' : 'Method not allowed' } }, 405
+
+    report = Report()
+    empathy_result = report.add_count(report_index, 'empathy')
+
+    if empathy_result == True:
+
+        return {}, 200
+    else:
+
+        return { 'data' : { 'message' : 'Not Found' } }, 404
+
+@bp.route('/support', methods=['POST'])
+def add_support():
+    try:
+        report_index = request.args.get('index')
+
+    except IndexError:
+
+        return{ 'data' : { 'message' : 'Method not allowed' } }, 405
+
+    report = Report()
+    empathy_result = report.add_count(report_index, 'support')
+
+    if empathy_result == True:
+
+        return {}, 200
+    else:
+        
+        return { 'data' : { 'message' : 'Not Found' } }, 404

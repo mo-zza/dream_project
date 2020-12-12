@@ -4,7 +4,7 @@ from dream_api.use_case.user import Users
 # from dream_api.object.req_object import req
 
 
-@bp.route('/user', methods=['POST'])
+@bp.route('/join', methods=['POST'])
 def create_user():
     try:
         req_data = request.get_json()
@@ -12,11 +12,11 @@ def create_user():
         email=req_data['email']
         password=req_data['password']
         name=req_data['name']
-        birth=req_data['birth']
-        phone=req_data['phone']
         school=req_data['school']
+        phone=req_data['phone']
         address=req_data['address']
         detail_address = req_data['detail_address']
+        birth=req_data['birth']
 
     
     except IndexError:
@@ -26,7 +26,7 @@ def create_user():
     users=Users(email)
 
     if users.create_user(name, password, birth, phone, school, address, detail_address) == True:
-        return  {}, 200
+        return  {}, 201
     else:
         return 'Server Error', 500
 
@@ -69,8 +69,8 @@ def email_check():
     if user_info == None:
 
         #return { 'data' : { 'message' : 'Empty user'} }, 200
-        return "True", 200
+        return { 'data' : { 'duplicate' : 'true'}}, 200
     else:
 
         #return { 'data' : { 'message' : 'Usser already exist' } }, 400
-        return "False", 400
+        return { 'data' : { 'duplicate' : 'false'}}, 400

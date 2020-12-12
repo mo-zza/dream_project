@@ -12,7 +12,7 @@ class MongoDB():
 
         return collection.insert_one(data)
 
-    def update_database(self, db_name:str, collection_name:str, query_key:str, old_data:str, update_key:str, update_data:str):
+    def update_database(self, db_name:str, collection_name:str, query_key:str, old_data, update_key:str, update_data):
         db_name = self.mongo[f'{db_name}']
         collection = db_name[f'{collection_name}']
 

@@ -1,5 +1,6 @@
 from hashlib import blake2b
 import time
+import datetime as dt
 import json
 
 from dream_api import db, blockchain
@@ -12,8 +13,8 @@ class Report():
     admin_wallet_address = 'tlink1f9wm2yfjnmxs4llcc8mw09nwtdg2urutnqjk69'
     admin_wallet_secret = '4KyYqwp2fWj47J2mUgGptdxlixhnRTIH2/X9th9N+oA='
 
-    def build_index_id(self, email):
-        item_src = email + str(time.time())
+    def build_index_id(self, owner):
+        item_src = owner + str(time.time())
         item = item_src.encode()
 
         hex_info = blake2b(digest_size=32, depth=255, node_depth=46, node_offset=46, inner_size=55)
@@ -30,18 +31,18 @@ class Report():
         return last_token_index
 
 
-    def report_vio(self, email:str, title:str, report_type:str, content:str, datetime:int):
-        report_index = self.build_index_id(email)
+    def report_vio(self, owner:str, title:str, category:str, content:str):
+        report_index = self.build_index_id(owner)
         last_token_index = self.token_index()
         token_index = '000000' + str((int(last_token_index) + 1))
 
-        user_info = db.read_filed('Dreamer', 'USERS', 'email', email)[0]
+        user_info = db.read_filed('Dreamer', 'USERS', 'name', owner)[0]
         user_wallet_address = user_info['wallet']['address']
-        user_name = user_info['name']
+        datetime = dt.datetime.now()
 
         try:
-            report_models = ReportModel(title, report_type, user_name, datetime)
-            db_model = report_models.build_report_model(report_index, token_index, 'new')
+            report_models = ReportModel(title, category, owner, datetime)
+            db_model = report_models.build_report_model(report_index, token_index, 'processing')
             token_model = report_models.build_meeta_model(content)
             db.create_database('Dreamer', 'REPORTS', db_model)
 
@@ -63,6 +64,17 @@ class Report():
         report_content = dict_nft_meta['content']
 
         report_info['report'] = report_content
-        del(report_info['token_index'])
 
         return report_info
+
+    def add_count(self, report_index:str, institution:str):
+        report_info = db.read_filed('Dreamer', 'REPORTS', 'index', report_index)
+        old_count = report_info[institution]
+        new_count = old_count + 1
+
+        try:
+            db.update_database('Dreamer', 'REPORTS', institution, old_count, institution, new_count)
+
+            return True
+        except:
+            return False

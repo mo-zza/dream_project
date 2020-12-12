@@ -14,7 +14,9 @@ class ReportModel():
             'category' : self.category,
             'owner' : self.owner,
             'datetime' : self.datetime,
-            'status' : status
+            'status' : status,
+            'empathy' : 0,
+            'support' : 0
         }
 
         return report_model
