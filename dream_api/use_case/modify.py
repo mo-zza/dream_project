@@ -7,7 +7,7 @@ class Modify():
 
     def report_modify(self):
         try:
-            db.update_database('Dreamer', 'REPORTS', 'index', self.index, 'status', self.status)
+            db.update_database('', '', '', self.index, '', self.status)
 
             return True
 

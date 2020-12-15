@@ -8,7 +8,7 @@ class Users():
         self.email = user_email
 
     def check_user(self):
-        user_info = db.read_filed('Dreamer', 'USERS', 'email', self.email)
+        user_info = db.read_filed('', '', '', self.email)
         
         if user_info == []:
             return None
@@ -16,7 +16,7 @@ class Users():
             return user_info
 
     def get_wallet_info(self):
-        all_wallet = db.read_filed('Dreamer', 'WALLET', 'status', False)
+        all_wallet = db.read_filed('', '', '', False)
         unspec_wallet = all_wallet[0]
 
         return unspec_wallet
@@ -45,7 +45,7 @@ class Users():
         unspec_wallet_secret = unspec_wallet_info['secret']
 
         user_data = UserModel().build_user_model(name, self.email, password, birth, phone, school, address, detail_address, unspec_wallet_address, unspec_wallet_secret)
-        db.create_database('Dreamer', 'USERS', user_data)
-        db.update_database('Dreamer', 'WALLET', 'status', False, 'status', True)
+        db.create_database('', '', user_data)
+        db.update_database('', '', '', False, '', True)
 
         return True

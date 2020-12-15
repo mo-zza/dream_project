@@ -17,14 +17,14 @@ def regist():
 
         return 'Method not allowed', 405
 
+    report = Report()
+    regist = report.report_vio(owner, title, category, content)
 
-    try:
-        report = Report()
-        report.report_vio(owner, title, category, content)
+    if regist == False:
 
-        return {}, 201
-    except:
-        return "token error", 500
+        return { 'data' : { 'message' : 'Report error'} }, 400
+    else:
+        return { 'data' : { 'message' : regist } }, 200
 
 @bp.route('/report', methods=['GET'])
 def get_report():

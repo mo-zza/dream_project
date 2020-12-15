@@ -68,9 +68,7 @@ def email_check():
 
     if user_info == None:
 
-        #return { 'data' : { 'message' : 'Empty user'} }, 200
         return { 'data' : { 'duplicate' : 'true'}}, 200
     else:
 
-        #return { 'data' : { 'message' : 'Usser already exist' } }, 400
         return { 'data' : { 'duplicate' : 'false'}}, 400

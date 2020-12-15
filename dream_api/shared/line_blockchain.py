@@ -80,12 +80,11 @@ class BlockchainRequest():
 
 
 class LineBlockchain(BlockchainRequest):
-    def __init__(self, base_url='https://test-api.blockchain.line.me', api_key='2b885173-b3ba-4f67-8a2d-0dda9a0ab99b', secret_key='91ba4ec6-5a00-4d00-889d-5cb46d073be7'):
+    def __init__(self, base_url='', api_key='', secret_key=''):
         super().__init__(api_key, secret_key, base_url)
 
     def get_service_information(self, serviceId):
         end_point = f'/v1/services/{serviceId}'
-        # end_point = '/v1/wallets'
 
         header = self.build_path_only_headers('GET', end_point)
 
