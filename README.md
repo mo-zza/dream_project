@@ -15,12 +15,12 @@
 2. use_case
 - /health : API server Health check
     1. user
-        - POST /login : Login Dream DApp
-        - GET /user : Create user
+        - POST /join : Sign up Dream service
+        - POST /login : Sign in Dream service
+        - GET /email : E-mail duplication check
 
     2. report
-        - POST /regist : Report violence
-        - POST /modify : Update or Change report status
-
-3. comment
-- Back-end developer said 'This is not REST API. This API is 'HTTP API'. Because not clean. and not description easier
+        - POST /regist : post violence report
+        - GET /report : read one report
+        - POST /empathy : click report empathy
+        - POST /support : support violence report
